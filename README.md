@@ -1,16 +1,25 @@
 # Hilma af Klint: Paintings for the Temple
 
-A website portal dedicated to the work of Hilma af Klint and her series "Paintings for the Temple".
+**Educational portfolio project** — a single-page website portal about Hilma af Klint and her series *Paintings for the Temple*.  
+This site is **not affiliated** with the [Hilma af Klint Foundation](https://hilmaafklint.se) or any museum. It was built for learning and demonstration purposes only.
 
-## Website Structure
+## About this project
 
-- **Home / Portal** — Landing page with Hero section, navigation, and mini gallery
-- **The Temple** — Temple concept with levels and architecture
-- **Ten Largest** — Exploration of the series with four life stages
-- **Symbols & Language** — Dictionary of symbols and forms
-- **Timeline** — Timeline from 1862–1944
-- **Sources** — Links to museums and sources
-- **Gallery** — Separate page with artwork gallery and filters
+This is a **student / learning project** (учебный проект): an exploration of modern front-end layout, animation, and interaction design inspired by museum and editorial websites. Content is for educational use; image rights belong to the Hilma af Klint Foundation and respective museums where noted.
+
+## Website structure
+
+Single-page layout with anchor navigation:
+
+| Section | Description |
+|--------|-------------|
+| **Home** | Hero and introductory grid of key series |
+| **About** | Biography and context blocks with hover interactions |
+| **The Temple** | Temple concept, levels, and architecture |
+| **Ten Largest** | Four life stages with artwork cards |
+| **Timeline** | Interactive timeline 1862–1944 |
+| **Sources** | Museums, publications, and external links |
+| **Footer** | Credits, explore links, and contact |
 
 ## Technologies
 
@@ -18,37 +27,29 @@ A website portal dedicated to the work of Hilma af Klint and her series "Paintin
 - TypeScript
 - Vite
 - Tailwind CSS
-- Framer Motion (animations)
-- React Router (navigation)
+- Framer Motion
+- React Router
 
-## Installation and Setup
+## Installation
 
 ```bash
-# Install dependencies
 npm install
-
-# Run development server
-npm run dev
-
-# Build for production
+npm run dev      # http://localhost:5173
 npm run build
-
-# Preview production build
 npm run preview
 ```
 
 ## Features
 
-- One-page structure with anchor links
-- Smooth animations and parallax effects
-- Responsive design
-- Interactive elements (filters, tabs, hover effects)
-- Modern minimalist design
-- Custom cursor animations
-- Animated text reveals
-- Grid layout with hover interactions
+- One-page site with smooth scroll and anchor links
+- Sticky / mobile full-screen navigation
+- `AnimatedTitle` character reveals
+- Grid and section blocks with hover color changes and marquee titles
+- Custom cursor (circle + arrow) on desktop hover
+- Responsive layout (`useMedia` hooks for mobile and touch)
+- Ten Largest paintings from Wikimedia Commons (`public/images/ten-largest/`)
 
-## Project Structure
+## Project structure
 
 ```
 src/
@@ -59,28 +60,38 @@ src/
 │   │   ├── AboutSection.tsx
 │   │   ├── TempleSection.tsx
 │   │   ├── TenLargestSection.tsx
-│   │   ├── SymbolsSection.tsx
 │   │   ├── TimelineSection.tsx
 │   │   └── SourcesSection.tsx
 │   ├── Navigation.tsx
-│   └── AnimatedTitle.tsx
+│   ├── AnimatedTitle.tsx
+│   └── Footer.tsx
+├── hooks/
+│   └── useMedia.ts
 ├── pages/
-│   ├── HomePage.tsx
-│   └── GalleryPage.tsx
+│   └── HomePage.tsx
 ├── App.tsx
 ├── main.tsx
 └── index.css
+public/
+└── images/ten-largest/   # No. 1–10 artwork images
 ```
 
 ## Design
 
-The website features a minimalist design with:
-- Color palette: #403B37 (dark brown), #FBEFDF (cream), #C1C0B6 (beige)
-- Custom typography using Inter and Playfair Display fonts
-- Smooth animations and transitions
-- Interactive hover effects with custom cursor
-- Responsive mobile-first approach
+- Palette: `#403B37`, `#FBEFDF`, `#C1C0B6`, `#829EB1`, `#ED740C`, `#F1BC3E`, `#394A8B`, `#E7E0D2`
+- Typography: Inter, Playfair Display (serif headings)
+- Rounded block corners, blur navigation, scroll-driven sticky menu
+
+## Contact
+
+- [LinkedIn — Alesya Frolova](https://www.linkedin.com/in/alesya-frolova/)
+- [alesya.vashurova@gmail.com](mailto:alesya.vashurova@gmail.com)
+
+## Disclaimer
+
+© Educational portfolio project. Not an official Hilma af Klint or museum website.  
+Images via [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:Paintings_by_Hilma_af_Klint) where noted. For publication or commercial use of artworks, contact the Hilma af Klint Foundation.
 
 ## License
 
-This project is created for educational and portfolio purposes.
+For educational and portfolio purposes only.
