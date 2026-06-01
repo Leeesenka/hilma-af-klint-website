@@ -1,7 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { useCanHover, useIsMobile } from '../../hooks/useMedia'
+import AnimatedTitle from '../AnimatedTitle'
 
 const AboutSection = () => {
+  const isMobile = useIsMobile()
+  const canHover = useCanHover()
   const [isHovered, setIsHovered] = useState(false)
   const [isSpiritualHovered, setIsSpiritualHovered] = useState(false)
   const [isWhyHovered, setIsWhyHovered] = useState(false)
@@ -108,52 +112,46 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="relative min-h-screen py-32 px-0 rounded-[3rem]" style={{ backgroundColor: '#403B37', zIndex: 1 }}
+      className="relative min-h-screen py-16 md:py-32 px-4 md:px-0 rounded-2xl md:rounded-[3rem] overflow-x-hidden"
+      style={{ backgroundColor: '#403B37', zIndex: 1 }}
     >
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-5xl md:text-6xl font-serif font-bold mb-6" style={{ color: '#FBEFDF' }}>
-            About
-          </h2>
-        </motion.div>
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="mb-6 md:mb-12 overflow-hidden w-full">
+          <AnimatedTitle text="About" align="left" className="!text-[#FBEFDF]" />
+        </div>
 
-        <div className="flex flex-col md:flex-row gap-0 items-stretch">
-          {/* Biography */}
+        <div className="flex flex-col md:flex-row gap-0 items-stretch w-full">
+          {/* Biography Block */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="backdrop-blur-sm p-8 md:p-12 shadow-xl border-2 relative overflow-hidden flex flex-col justify-between"
+            className="backdrop-blur-sm p-6 md:p-12 shadow-xl border-2 relative overflow-hidden flex flex-col justify-between w-full"
             style={{ 
               backgroundColor: '#403B37', 
               borderColor: '#FBEFDF',
               borderTopLeftRadius: '0',
               borderTopRightRadius: '0',
               borderBottomLeftRadius: '0',
-              borderBottomRightRadius: '3rem',
-              cursor: 'none',
-              height: '400px',
-              padding: isHovered ? '24px 24px 5px 0px' : '24px 24px 15px 24px',
-              flexBasis: '65%',
+              borderBottomRightRadius: isMobile ? '2rem' : '3rem',
+              cursor: canHover ? 'none' : 'default',
+              height: isMobile ? 'auto' : '400px',
+              minHeight: isMobile ? 'min(70vh, 420px)' : '400px',
+              padding: isHovered && canHover ? '24px 24px 5px 0px' : '24px 24px 15px 24px',
+              flexBasis: isMobile ? '100%' : '65%',
               flexShrink: 0,
               flexGrow: 0,
-              width: '65%',
-              maxWidth: '65%',
-              minWidth: '65%'
+              width: isMobile ? '100%' : '65%',
+              maxWidth: isMobile ? '100%' : '65%',
+              minWidth: isMobile ? '0' : '65%'
             }}
-            whileHover="hover"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            whileHover={canHover ? 'hover' : undefined}
+            onMouseEnter={() => canHover && setIsHovered(true)}
+            onMouseLeave={() => canHover && setIsHovered(false)}
           >
             {/* Default content - visible when not hovered */}
-            {!isHovered && (
+            {(!isHovered || !canHover) && (
               <>
                 <h3 className="text-3xl font-serif font-semibold mb-6" style={{ color: '#FBEFDF' }}>
                   Biography
@@ -178,8 +176,8 @@ const AboutSection = () => {
               </>
             )}
             
-            {/* Hover content - visible when hovered */}
-            {isHovered && (
+            {/* Hover content - visible when hovered (desktop only) */}
+            {isHovered && canHover && (
               <>
                 <div className="flex-1"></div>
                 <div className="flex justify-between items-end relative" style={{ marginBottom: '0px' }}>
@@ -260,11 +258,11 @@ const AboutSection = () => {
             )}
           </motion.div>
           
-          {/* Custom cursor */}
+          {/* Custom cursor for Biography */}
           <AnimatePresence>
-            {isHovered && (
+            {isHovered && canHover && (
               <motion.div
-                className="fixed pointer-events-none z-[99999999]"
+                className="fixed pointer-events-none z-[99999999] hidden md:block"
                 style={{
                   left: mousePosition.x,
                   top: mousePosition.y,
@@ -341,43 +339,44 @@ const AboutSection = () => {
             )}
           </AnimatePresence>
 
-          {/* Context */}
+          {/* Right Column - Context Blocks */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="flex flex-col gap-0"
+            className="flex flex-col gap-0 w-full"
             style={{
-              flexBasis: '35%',
+              flexBasis: isMobile ? '100%' : '35%',
               flexShrink: 0,
               flexGrow: 0,
-              height: '400px',
-              width: '35%',
-              maxWidth: '35%',
-              minWidth: '35%'
+              height: isMobile ? 'auto' : '400px',
+              width: isMobile ? '100%' : '35%',
+              maxWidth: isMobile ? '100%' : '35%',
+              minWidth: isMobile ? '0' : '35%'
             }}
           >
             <motion.div 
-              className="p-8 border-2 relative overflow-hidden flex flex-col justify-between"
+              className="p-6 md:p-8 border-2 relative overflow-hidden flex flex-col justify-between w-full"
               style={{ 
                 backgroundColor: '#403B37', 
                 borderColor: '#FBEFDF',
                 borderTopLeftRadius: '0',
                 borderTopRightRadius: '0',
                 borderBottomLeftRadius: '0',
-                borderBottomRightRadius: '3rem',
-                cursor: 'none',
-                padding: isSpiritualHovered ? '24px 24px 5px 0px' : '24px 24px 15px 24px',
+                borderBottomRightRadius: isMobile ? '2rem' : '3rem',
+                cursor: canHover ? 'none' : 'default',
+                padding: isSpiritualHovered && canHover ? '24px 24px 5px 0px' : '24px 24px 15px 24px',
                 marginTop: '0',
-                height: '50%',
+                height: isMobile ? 'auto' : '50%',
+                minHeight: isMobile ? '200px' : undefined,
                 flexShrink: 0
               }}
-              whileHover="hover"
-              onMouseEnter={() => setIsSpiritualHovered(true)}
-              onMouseLeave={() => setIsSpiritualHovered(false)}
+              whileHover={canHover ? 'hover' : undefined}
+              onMouseEnter={() => canHover && setIsSpiritualHovered(true)}
+              onMouseLeave={() => canHover && setIsSpiritualHovered(false)}
             >
-              {!isSpiritualHovered && (
+              {(!isSpiritualHovered || !canHover) && (
                 <>
                   <h4 className="text-lg font-semibold mb-0" style={{ color: '#FBEFDF' }}>
                     Spiritual Ideas
@@ -390,7 +389,7 @@ const AboutSection = () => {
                 </>
               )}
               
-              {isSpiritualHovered && (
+              {isSpiritualHovered && canHover && (
                 <>
                   <div className="flex-1"></div>
                   <div className="flex justify-between items-end relative" style={{ marginBottom: '0px' }}>
@@ -399,7 +398,7 @@ const AboutSection = () => {
                       style={{ transformOrigin: 'bottom left', width: '100%', maxWidth: '100%', overflow: 'hidden' }}
                       initial={{ y: 20 }}
                       animate={{
-                        scale: isSpiritualHovered ? 2.5 : 1,
+                        scale: isSpiritualHovered && canHover ? 2.5 : 1,
                         y: isSpiritualHovered ? 30 : 0,
                         transition: { 
                           scale: { duration: 0.3 },
@@ -471,11 +470,11 @@ const AboutSection = () => {
               )}
             </motion.div>
             
-            {/* Custom cursor for Spiritual Ideas */}
+            {/* Custom cursor for Spiritual Ideas block */}
             <AnimatePresence>
-              {isSpiritualHovered && (
+              {isSpiritualHovered && canHover && (
                 <motion.div
-                  className="fixed pointer-events-none z-[99999999]"
+                  className="fixed pointer-events-none z-[99999999] hidden md:block"
                   style={{
                     left: mousePosition.x,
                     top: mousePosition.y,
@@ -553,25 +552,26 @@ const AboutSection = () => {
             </AnimatePresence>
 
             <motion.div 
-              className="p-8 border-2 relative overflow-hidden flex flex-col justify-between"
+              className="p-6 md:p-8 border-2 relative overflow-hidden flex flex-col justify-between w-full"
               style={{ 
                 backgroundColor: '#403B37', 
                 borderColor: '#FBEFDF',
                 borderTopLeftRadius: '0',
                 borderTopRightRadius: '0',
                 borderBottomLeftRadius: '0',
-                borderBottomRightRadius: '3rem',
-                cursor: 'none',
-                padding: isWhyHovered ? '24px 24px 5px 0px' : '24px 24px 15px 24px',
+                borderBottomRightRadius: isMobile ? '2rem' : '3rem',
+                cursor: canHover ? 'none' : 'default',
+                padding: isWhyHovered && canHover ? '24px 24px 5px 0px' : '24px 24px 15px 24px',
                 marginTop: '0',
-                height: '50%',
+                height: isMobile ? 'auto' : '50%',
+                minHeight: isMobile ? '200px' : undefined,
                 flexShrink: 0
               }}
-              whileHover="hover"
-              onMouseEnter={() => setIsWhyHovered(true)}
-              onMouseLeave={() => setIsWhyHovered(false)}
+              whileHover={canHover ? 'hover' : undefined}
+              onMouseEnter={() => canHover && setIsWhyHovered(true)}
+              onMouseLeave={() => canHover && setIsWhyHovered(false)}
             >
-              {!isWhyHovered && (
+              {(!isWhyHovered || !canHover) && (
                 <>
                   <h4 className="text-lg font-semibold mb-2" style={{ color: '#FBEFDF' }}>
                     Why It Matters
@@ -586,7 +586,7 @@ const AboutSection = () => {
                 </>
               )}
               
-              {isWhyHovered && (
+              {isWhyHovered && canHover && (
                 <>
                   <div className="flex-1"></div>
                   <div className="flex justify-between items-end relative" style={{ marginBottom: '0px' }}>
@@ -595,7 +595,7 @@ const AboutSection = () => {
                       style={{ transformOrigin: 'bottom left', width: '100%', maxWidth: '100%', overflow: 'hidden' }}
                       initial={{ y: 20 }}
                       animate={{
-                        scale: isWhyHovered ? 2.5 : 1,
+                        scale: isWhyHovered && canHover ? 2.5 : 1,
                         y: isWhyHovered ? 30 : 0,
                         transition: { 
                           scale: { duration: 0.3 },
@@ -667,11 +667,11 @@ const AboutSection = () => {
               )}
             </motion.div>
             
-            {/* Custom cursor for Why It Matters */}
+            {/* Custom cursor for Why It Matters block */}
             <AnimatePresence>
-              {isWhyHovered && (
+              {isWhyHovered && canHover && (
                 <motion.div
-                  className="fixed pointer-events-none z-[99999999]"
+                  className="fixed pointer-events-none z-[99999999] hidden md:block"
                   style={{
                     left: mousePosition.x,
                     top: mousePosition.y,

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
+import { useIsMobile } from '../hooks/useMedia'
 
 interface AnimatedTitleProps {
   text: string
@@ -11,6 +12,7 @@ interface AnimatedTitleProps {
 const AnimatedTitle = ({ text, className = '', align = 'left', delay = 0 }: AnimatedTitleProps) => {
   const [isInView, setIsInView] = useState(false)
   const ref = useRef<HTMLHeadingElement>(null)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -44,18 +46,20 @@ const AnimatedTitle = ({ text, className = '', align = 'left', delay = 0 }: Anim
       ref={ref}
       className={`s-title1 titleLines ${alignClass} ${className}`}
       style={{
-        fontSize: 'clamp(4rem, 12.4rem, 15vw)',
+        fontSize: isMobile ? 'clamp(2.25rem, 10vw, 3.5rem)' : 'clamp(4rem, 12.4rem, 15vw)',
         letterSpacing: '-0.04em',
-        lineHeight: 1,
+        lineHeight: isMobile ? 1.05 : 1,
         margin: 0,
         fontFamily: 'Inter, sans-serif',
         fontWeight: 400,
-        marginBottom: '2.2rem',
-        whiteSpace: 'nowrap',
-        position: 'relative'
+        marginBottom: isMobile ? '1.25rem' : '2.2rem',
+        whiteSpace: isMobile ? 'normal' : 'nowrap',
+        position: 'relative',
+        maxWidth: '100%',
+        overflowWrap: 'break-word',
       }}
     >
-      {/* Верхняя линия */}
+      {/* Top line */}
       <span className="line block bg-current mb-4" style={{ opacity: 0.3, height: '3px' }}></span>
       
       <span className="grid-13 js-titleLine inline-block">
@@ -83,7 +87,7 @@ const AnimatedTitle = ({ text, className = '', align = 'left', delay = 0 }: Anim
         </span>
       </span>
       
-      {/* Нижняя линия */}
+      {/* Bottom line */}
       <span className="line block bg-current mt-4" style={{ opacity: 0.3, height: '3px' }}></span>
     </h2>
   )
